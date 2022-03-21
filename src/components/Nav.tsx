@@ -9,6 +9,9 @@ const Nav = () => {
             <div className="w-full block flex items-center w-auto">
                 <div className="text-sm lg:flex-grow">
                 <a className="inline-block mt-0 text-gray-200 hover:text-white mr-4">
+                    Sign In
+                </a>
+                <a className="inline-block mt-0 text-gray-200 hover:text-white mr-4">
                     menu1
                 </a>
                 <a className="inline-block mt-0 text-gray-200 hover:text-white mr-4">
