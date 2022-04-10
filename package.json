@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,7 +13,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.28.1",
-    "react-router-dom": "^6.2.2"
+    "react-router-dom": "^6.2.2",
+    "recoil": "^0.6.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",

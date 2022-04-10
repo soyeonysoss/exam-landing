@@ -13,7 +13,7 @@ const Nav = () => {
             </div>
             <div className="w-full block flex items-center w-auto">
                 <div className="text-sm lg:flex-grow">
-                <Link href="/signup">
+                <Link href="/signup_test">
                     <a className="inline-block mt-0 text-gray-200 hover:text-white mr-4">
                         Sign Up
                     </a>

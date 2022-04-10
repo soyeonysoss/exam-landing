@@ -2,77 +2,77 @@ import React, { useRef, useState } from 'react'
 import { useForm } from "react-hook-form";
 import FormField from './FormField';
 
+// 여기서만 useform 사용
+
 const SignUpForm = () => {
-  const { register, handleSubmit, watch, formState: { errors } }: any = useForm( { mode: "onChange" } );
-  const password = useRef();
-  password.current = watch("password");
+  const { register, handleSubmit, watch, formState: { errors, isDirty, isValid } }: any = useForm( { mode: "onChange" } );
+  // const password = useRef();
+  // password.current = watch("password");
 
-  const [ disabled, setDisabled ] = useState(true);
-  const [ submitBtn, setSubmitBtn ] = useState('form-btn-disabled');
-  const watchFields = watch(['email','name','password','passwordConfirm']);
-
-  const onSubmit = (data) => {
+  const onSubmit = (data) => { 
     console.log('data', data)
   };
-  const handleSubmitBtn = (e) => {
-    e.preventDefault();
-    if (watchFields[0] === '' || // 필드가 비어있거나 error가 있으면 submit button을 disabled
-      watchFields[1] === '' ||
-      watchFields[2] === '' ||
-      watchFields[3] === '' ||
-      Object.keys(errors).length !== 0) {
-        console.log('disabled');
-        setDisabled(true);
-        setSubmitBtn('form-btn-disabled');
-    } else {
-      console.log('active');
-      setDisabled(false);
-      setSubmitBtn('form-btn-active');
-    }
+
+  const [btn, setBtn] = useState(false);
+
+  const emailRef = useRef(null);
+  const nameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const passwordConfirmRef = useRef(null);
+  const validCheck = () => {
+    if (emailRef.current
+      && nameRef.current
+      && passwordRef.current
+      && passwordConfirmRef.current) 
+      {
+        if (emailRef.current.value.length 
+          && nameRef.current.value.length
+          && passwordRef.current.value.length
+          && passwordConfirmRef.current.value.length
+          ) {setBtn(true); return;}
+        setBtn(false)
+        return
+      }
+    setBtn(false);
+    return
   }
+  const printValid = () => {
+    console.log(validCheck())
+  }
+
   const emailFieldProps = {
     label: '이메일', 
-    inputType: 'email', 
-    regName: 'email',
-    validation: { required: true, pattern: /^\S+@\S+$/i }, 
-    errorMsgs: ['이메일을 입력해주세요.', '이메일 형식에 맞게 입력해주세요.']
+    inputType: 'email',
+    ref: emailRef, 
   }
   const nameFieldProps = {
     label: '이름', 
-    inputType: 'text', 
-    regName: 'name',
-    validation: { required: true, maxLength: 10 }, 
-    errorMsgs: ['이름을 입력해주세요.', '10자 이내의 이름을 입력해주세요.']
+    inputType: 'text',
+    ref: nameRef, 
   }
   const passwordFieldProps = {
     label: '비밀번호', 
     inputType: 'password', 
-    regName: 'password',
-    validation: { required: true, minLength: 6 }, 
-    errorMsgs: ['비밀번호를 입력해주세요.', '6자 이상의 비밀번호를 입력해주세요.']
+    ref: passwordRef,
   }
   const passwordConfirmFieldProps = {
     label: '비밀번호 확인', 
     inputType: 'password', 
-    regName: 'passwordConfirm',
-    validation: {
-      required: true,
-      validate: (value) =>
-        value === password.current
-    }, 
-    errorMsgs: ['비밀번호를 입력해주세요.', '비밀번호가 일치하지 않습니다.']
+    ref: passwordConfirmRef,
   }
 
   return (
     <div className='w-full max-w-xs'>
       <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
-        onSubmit={handleSubmit(onSubmit)} onChange={handleSubmitBtn}>
+        onSubmit={handleSubmit(onSubmit)}
+        onChange={validCheck}>
         <FormField {...emailFieldProps} />
         <FormField {...nameFieldProps} />
         <FormField {...passwordFieldProps} />
         <FormField {...passwordConfirmFieldProps} />
         <input type="submit" value='Sign Up'
-          className={submitBtn} disabled={disabled}
+          className={btn ? 'form-btn-active' : 'form-btn-disabled'} 
+          disabled={!btn}
         />
       </form>
     </div>
@@ -81,3 +81,8 @@ const SignUpForm = () => {
 }
 
 export default SignUpForm
+
+// 버튼 활성화: 각 필드가 비어있지 않고, 유효성 체크를 만족
+// form-btn-disabled form-btn-active
+// 고칠 것: password.current가 passwordConfirmField에 들어가야함
+

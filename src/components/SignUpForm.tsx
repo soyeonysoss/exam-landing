@@ -1,43 +1,26 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useForm } from "react-hook-form";
+import { atom, useRecoilState, useRecoilValue, } from 'recoil'
+
 
 const SignUpForm = () => {
   const { register, handleSubmit, watch, formState: { errors } }: any = useForm( { mode: "onChange" } );
   const password = useRef();
   password.current = watch("password");
 
-  const [ disabled, setDisabled ] = useState(true);
-  const [ submitBtn, setSubmitBtn ] = useState('form-btn-disabled');
+  // const [disabled, setDisabled] = useRecoilState(disabledState);
+  
   const watchFields = watch(['email','name','password','password_confirm']);
-  console.log(watchFields[0] === '');
-  console.log(watchFields[1] === '');
-  console.log(watchFields[2] === '');
-  console.log(watchFields[3] === '');
-  console.log(errors);
+
   const onSubmit = (data) => {
     console.log('data', data)
   };
-  const handleSubmitBtn = (e) => {
-    e.preventDefault();
-    if (watchFields[0] === '' || // 필드가 비어있거나 error가 있으면 submit button을 disabled
-      watchFields[1] === '' ||
-      watchFields[2] === '' ||
-      watchFields[3] === '' ||
-      Object.keys(errors).length !== 0) {
-        console.log('disabled');
-        setDisabled(true);
-        setSubmitBtn('form-btn-disabled');
-    } else {
-      console.log('active');
-      setDisabled(false);
-      setSubmitBtn('form-btn-active');
-    }
-  }
   
+
   return (
     <div className='w-full max-w-xs'>
       <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
-        onSubmit={handleSubmit(onSubmit)} onChange={handleSubmitBtn}>
+        onSubmit={handleSubmit(onSubmit)}>
 
         <div className='mb-4'>
           <label className='form-label'>이메일</label>
@@ -89,7 +72,7 @@ const SignUpForm = () => {
             && <p className='form-validation-error'>비밀번호가 일치하지 않습니다.</p>}
         </div>
         <input type="submit" value='Sign Up'
-          className={submitBtn} disabled={disabled}
+          className=''
         />
 
       </form>
