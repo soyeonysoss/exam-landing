@@ -67,7 +67,7 @@ const SignUpForm = () => {
     validation: {
       required: true,
       validate: (value) =>
-        value === passwordRef.current // 왜 되지 ㅎ...
+        value === passwordRef.current
     },
     errMsg: {
       required: '비밀번호를 입력해주세요.',
@@ -85,7 +85,7 @@ const SignUpForm = () => {
         <FormField {...emailFieldProps}  />
         <FormField {...nameFieldProps} />
         <FormField {...passwordFieldProps} />
-        <FormField {...passwordConfirmFieldProps} />
+        <FormField />
 
         <input type="submit" value='Sign Up'
           className={isValid ? 'form-btn-active' : 'form-btn-disabled'} 
